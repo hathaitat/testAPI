@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <title>Report</title>
+</head>
+
+<script>
+  (function (d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {
+      return;
+  }
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+      fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'Messenger'));
+        
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart(){
+
+
+
+//console.log(section);
+var Netsale_LY = 0;
+var Netsale_TY = 0;
+
+
+  var url_ = "https://whapi.officemate.co.th/get_report"
+  // var url_ = "http://10.17.2.210:1500/return_data";
+  // var url_ = "http://127.0.0.1:5000/return_data";
+  $.get(url_,function(data){
+  var data_ = JSON.parse(data);
+
+  Netsale_TY = data_['Netsale_TY'];
+  Netsale_LY = data_['Netsale_LY'];
+ 
+data_draw1(Netsale_LY,Netsale_TY);
+}); 
+}
+
+function data_draw1(Netsale_LY,Netsale_TY){
+
+var x = parseInt(Netsale_LY);
+var y= parseInt(Netsale_TY);
+
+console.log(x);
+console.log(y);
+
+var data1 = google.visualization.arrayToDataTable([
+  ['Task', 'Hours per Day'],
+  ['This year',x],
+  ['last year',y]
+  ]);
+
+  var options = {'title': 'Daily Stores sales report', 
+  'width':440,
+  'height':300,
+  'backgroundColor':'transparent',
+  'is3D': true,
+  'fontName':'roboto',
+  'legend':{textStyle: {color: '#2d2d30',fontName:'roboto', fontSize: 16}},
+  'titleTextStyle':{color: '#2d2d30',fontName:'roboto', fontSize: 20},
+  pieHole: 0.4,
+  pieSliceBorderColor:'transparent'
+};
+
+// Display the chart inside the <div> element with id="piechart"
+var chart = new google.visualization.PieChart(document.getElementById('Allpiechart'));
+chart.draw(data1, options);
+}</script>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+<style>
+  .container-center
+{
+  margin-left:15%;
+  height:40%
+}
+.container-right
+{
+
+  margin-left:70%;
+  height: auto;
+  width: auto;
+
+}
+.color{
+ color:yellow;
+}
+
+@media (max-width: 320px) {
+.container-center
+{
+  margin-left:15%;
+  height:40%
+}
+.container-right
+{
+
+  margin-left:70%;
+  height: auto;
+  width: auto;
+
+}
+.color{
+ color:yellow;
+}
+}
+@media (max-width: 376px) {
+.container-center
+{
+  margin-left:1%;
+  height: auto;
+  width:100%;  
+            
+}
+.container-right
+{
+
+  margin-left:80%;
+  height: auto;
+  width: auto;
+
+}
+.color{
+ color:yellow;
+}
+}
+
+
+</style>
+
+<body>        
+  <div class="container-right">
+    <img src = "{{url_for('static', filename='officemate.jpg')}}"  width="100"/> 
+  </div>
+
+  <div class = "container-center"> 
+    <div id="Allpiechart"></div>
+  </div>
+
+</body>   
+</html>
